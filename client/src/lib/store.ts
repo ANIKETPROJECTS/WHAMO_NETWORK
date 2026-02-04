@@ -96,12 +96,23 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
   },
 
   onConnect: (connection: Connection) => {
+    const id = getId();
     set({
       edges: addEdge(
         {
           ...connection,
+          id,
           type: 'conduit', // Default edge type
-          data: { label: `L-${getId()}`, type: 'conduit', length: 100, diameter: 1, celerity: 1000, friction: 0.02, numSegments: 10 }
+          markerEnd: { type: 'arrowclosed', color: '#3b82f6' },
+          data: { 
+            label: `C-${id}`, 
+            type: 'conduit', 
+            length: 1000, 
+            diameter: 0.5, 
+            celerity: 1000, 
+            friction: 0.02, 
+            numSegments: 1 
+          }
         },
         get().edges
       ),
@@ -150,9 +161,29 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
 
   updateEdgeData: (id, data) => {
     set({
-      edges: get().edges.map((edge) =>
-        edge.id === id ? { ...edge, data: { ...edge.data, ...data } } : edge
-      ),
+      edges: get().edges.map((edge) => {
+        if (edge.id === id) {
+          const newData = { ...edge.data, ...data };
+          let style = edge.style;
+          let markerEnd = edge.markerEnd;
+
+          if (data.type === 'conduit') {
+            style = { stroke: '#3b82f6', strokeWidth: 2 };
+            markerEnd = { type: 'arrowclosed', color: '#3b82f6' };
+          } else if (data.type === 'dummy') {
+            style = { stroke: '#94a3b8', strokeWidth: 2, strokeDasharray: '5,5' };
+            markerEnd = { type: 'arrowclosed', color: '#94a3b8' };
+          }
+
+          return { 
+            ...edge, 
+            data: newData,
+            style,
+            markerEnd: markerEnd as any
+          };
+        }
+        return edge;
+      }),
     });
   },
 

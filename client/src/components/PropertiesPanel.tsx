@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 export function PropertiesPanel() {
   const { 
@@ -73,6 +74,26 @@ export function PropertiesPanel() {
         <div className="space-y-4">
           <h4 className="text-sm font-semibold text-foreground/80">Parameters</h4>
           
+          {!isNode && (
+            <div className="grid gap-2 mb-4">
+              <Label>Connection Type</Label>
+              <RadioGroup 
+                value={element.data?.type || 'conduit'} 
+                onValueChange={(v) => handleChange('type', v)}
+                className="flex gap-4"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="conduit" id="conduit" />
+                  <Label htmlFor="conduit">Conduit</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="dummy" id="dummy" />
+                  <Label htmlFor="dummy">Dummy Pipe</Label>
+                </div>
+              </RadioGroup>
+            </div>
+          )}
+
           {isNode && element.data?.type === 'reservoir' && (
             <div className="grid gap-2">
               <Label htmlFor="elev">Water Elevation (m)</Label>
@@ -140,7 +161,7 @@ export function PropertiesPanel() {
             </>
           )}
 
-          {!isNode && element.data?.type === 'conduit' && (
+          {!isNode && (element.data?.type === 'conduit' || !element.data?.type) && (
             <>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -192,11 +213,32 @@ export function PropertiesPanel() {
                   onChange={(e) => handleChange('numSegments', e.target.value)} 
                 />
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cplus">CPLUS (opt)</Label>
+                  <Input 
+                    id="cplus" 
+                    type="number" 
+                    value={element.data?.cplus || ''} 
+                    onChange={(e) => handleChange('cplus', e.target.value)} 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cminus">CMINUS (opt)</Label>
+                  <Input 
+                    id="cminus" 
+                    type="number" 
+                    value={element.data?.cminus || ''} 
+                    onChange={(e) => handleChange('cminus', e.target.value)} 
+                  />
+                </div>
+              </div>
             </>
           )}
 
-           {!isNode && element.data?.type === 'dummy' && (
-             <div className="grid gap-2">
+          {!isNode && element.data?.type === 'dummy' && (
+            <>
+              <div className="grid gap-2">
                 <Label htmlFor="diam">Diameter (m)</Label>
                 <Input 
                   id="diam" 
@@ -204,8 +246,29 @@ export function PropertiesPanel() {
                   value={element.data?.diameter || 0} 
                   onChange={(e) => handleChange('diameter', e.target.value)} 
                 />
-             </div>
-           )}
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cplus">CPLUS (opt)</Label>
+                  <Input 
+                    id="cplus" 
+                    type="number" 
+                    value={element.data?.cplus || ''} 
+                    onChange={(e) => handleChange('cplus', e.target.value)} 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cminus">CMINUS (opt)</Label>
+                  <Input 
+                    id="cminus" 
+                    type="number" 
+                    value={element.data?.cminus || ''} 
+                    onChange={(e) => handleChange('cminus', e.target.value)} 
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </CardContent>
     </div>

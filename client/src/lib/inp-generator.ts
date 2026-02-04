@@ -36,7 +36,7 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[]) {
     const toNode = nodes.find(n => n.id === e.target);
     const fromId = fromNode?.data.nodeNumber || fromNode?.id || e.source;
     const toId = toNode?.data.nodeNumber || toNode?.id || e.target;
-    add(`ELEM ${e.data?.label || e.id} LINK ${fromId} ${toId}  ; ${e.type === 'dummy' ? 'Dummy' : 'Conduit'}`);
+    add(`ELEM ${e.data?.label || e.id} LINK ${fromId} ${toId}  ; ${e.data?.type === 'dummy' ? 'Dummy' : 'Conduit'}`);
   });
 
   // Junctions - defined purely as topology points in WHAMO usually, but if explicit junction elements needed:
@@ -73,10 +73,16 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[]) {
   });
 
   // Dummy Pipes
-  edges.filter(e => e.type === 'dummy').forEach(e => {
+  edges.filter(e => e.data?.type === 'dummy').forEach(e => {
     const d = e.data;
     if (d) {
-      add(`CONDUIT ID ${d.label || e.id} DUMMY DIAMETER ${d.diameter} ADDEDLOSS CPLUS ${d.cplus || 0} CMINUS ${d.cminus || 0} FINISH`);
+      add(`CONDUIT ID ${d.label || e.id}`);
+      add(` DUMMY`);
+      add(` DIAMETER ${d.diameter}`);
+      add(` ADDEDLOSS`);
+      if (d.cplus !== undefined && d.cplus !== '') add(` CPLUS ${d.cplus}`);
+      if (d.cminus !== undefined && d.cminus !== '') add(` CMINUS ${d.cminus}`);
+      add(`FINISH`);
     }
   });
 

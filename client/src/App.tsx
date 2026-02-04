@@ -10,7 +10,7 @@ import Designer from "@/pages/Designer";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={Designer} />
       <Route path="/designer" component={Designer} />
       <Route component={NotFound} />
     </Switch>
