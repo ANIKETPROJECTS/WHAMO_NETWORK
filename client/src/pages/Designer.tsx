@@ -64,9 +64,17 @@ export default function Designer() {
 
   const onConnect = useCallback(
     (params: Connection) => {
+      if (params.source === params.target) {
+        toast({
+          variant: "destructive",
+          title: "Invalid Connection",
+          description: "An element cannot be connected to itself.",
+        });
+        return;
+      }
       storeOnConnect(params);
     },
-    [storeOnConnect]
+    [storeOnConnect, toast]
   );
 
   const onNodeClick = useCallback((_: React.MouseEvent, node: Node) => {
