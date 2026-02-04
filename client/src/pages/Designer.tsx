@@ -12,6 +12,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import { useNetworkStore, WhamoNode, WhamoEdge } from '@/lib/store';
 import { ReservoirNode, SimpleNode, JunctionNode, SurgeTankNode, FlowBoundaryNode } from '@/components/NetworkNode';
+import { ConnectionEdge } from '@/components/ConnectionEdge';
 import { PropertiesPanel } from '@/components/PropertiesPanel';
 import { Toolbar } from '@/components/Toolbar';
 import { generateInpFile } from '@/lib/inp-generator';
@@ -25,6 +26,10 @@ const nodeTypes = {
   junction: JunctionNode,
   surgeTank: SurgeTankNode,
   flowBoundary: FlowBoundaryNode,
+};
+
+const edgeTypes = {
+  connection: ConnectionEdge,
 };
 
 export default function Designer() {
@@ -154,6 +159,7 @@ export default function Designer() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onNodeClick={onNodeClick}
             onEdgeClick={onEdgeClick}
             onSelectionChange={onSelectionChange}
