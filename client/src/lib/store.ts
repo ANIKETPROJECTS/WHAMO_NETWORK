@@ -16,7 +16,7 @@ import {
 import { NodeType, LinkType } from '@shared/schema';
 
 // Define base data structures for our specific engineering domain
-interface NodeData {
+interface NodeData extends Record<string, unknown> {
   label: string;
   type: NodeType;
   elevation?: number;
@@ -31,7 +31,7 @@ interface NodeData {
   scheduleNumber?: number;
 }
 
-interface EdgeData {
+interface EdgeData extends Record<string, unknown> {
   label: string;
   type: LinkType;
   length?: number;
@@ -101,13 +101,13 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
 
   onNodesChange: (changes: NodeChange[]) => {
     set({
-      nodes: applyNodeChanges(changes, get().nodes) as WhamoNode[],
+      nodes: applyNodeChanges(changes, get().nodes as any) as WhamoNode[],
     });
   },
 
   onEdgesChange: (changes: EdgeChange[]) => {
     set({
-      edges: applyEdgeChanges(changes, get().edges) as WhamoEdge[],
+      edges: applyEdgeChanges(changes, get().edges as any) as WhamoEdge[],
     });
   },
 

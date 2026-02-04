@@ -35,9 +35,16 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[]) {
     const toNode = nodes.find(n => n.id === e.target);
     const fromId = fromNode?.data.nodeNumber || fromNode?.id || e.source;
     const toId = toNode?.data.nodeNumber || toNode?.id || e.target;
+    
+    // Check if source node is a junction
+    if (fromNode?.type === 'junction') {
+      addL('');
+      addL(`JUNCTION AT ${fromId}`);
+      addL('');
+    }
 
-    addComment(e.data.comment);
-    addL(`ELEM ${e.data.label || e.id} LINK ${fromId} ${toId}`);
+    if (e.data) addComment(e.data.comment);
+    addL(`ELEM ${e.data?.label || e.id} LINK ${fromId} ${toId}`);
 
     if (junctionNodes.has(e.target)) {
       addL('');
@@ -81,8 +88,9 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[]) {
     addL('');
   });
 
-  edges.filter(e => e.data.type === 'conduit').forEach(e => {
+  edges.filter(e => e.data?.type === 'conduit').forEach(e => {
     const d = e.data;
+    if (!d) return;
     addComment(d.comment);
     let line = `CONDUIT ID ${d.label || e.id} LENG ${d.length} DIAM ${d.diameter} CELE ${d.celerity} FRIC ${d.friction} `;
     if (d.cplus !== undefined || d.cminus !== undefined) {
@@ -100,8 +108,9 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[]) {
     }
   });
 
-  edges.filter(e => e.data.type === 'dummy').forEach(e => {
+  edges.filter(e => e.data?.type === 'dummy').forEach(e => {
     const d = e.data;
+    if (!d) return;
     addComment(d.comment);
     addL(`CONDUIT ID ${d.label || e.id} `);
     addL(' DUMMY ');
@@ -115,6 +124,7 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[]) {
 
   nodes.filter(n => n.type === 'surgeTank').forEach(n => {
     const d = n.data;
+    if (!d) return;
     addComment(d.comment);
     addL('SURGETANK ');
     addL(` ID ${d.label} SIMPLE`);
@@ -129,6 +139,7 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[]) {
 
   nodes.filter(n => n.type === 'flowBoundary').forEach(n => {
     const d = n.data;
+    if (!d) return;
     addComment(d.comment);
     addL(`FLOWBC ID ${d.label} QSCHEDULE ${d.scheduleNumber} FINISH`);
   });

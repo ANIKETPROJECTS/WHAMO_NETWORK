@@ -178,8 +178,8 @@ export default function Designer() {
         {/* Canvas (70% width on large screens, full on small) */}
         <div className="flex-1 relative h-full bg-slate-50">
           <ReactFlow
-            nodes={nodes}
-            edges={edges}
+            nodes={nodes as any}
+            edges={edges as any}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
@@ -187,7 +187,7 @@ export default function Designer() {
             edgeTypes={edgeTypes}
             onNodeClick={onNodeClick}
             onEdgeClick={onEdgeClick}
-            onSelectionChange={onSelectionChange}
+            onSelectionChange={onSelectionChange as any}
             fitView
             className="bg-slate-50"
           >
