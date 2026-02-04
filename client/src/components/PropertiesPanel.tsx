@@ -66,6 +66,15 @@ export function PropertiesPanel() {
               onChange={(e) => handleChange('label', e.target.value)} 
             />
           </div>
+          <div className="grid gap-2">
+            <Label htmlFor="comment">Comment</Label>
+            <Input 
+              id="comment" 
+              placeholder="Internal comment (c/C style)"
+              value={element.data?.comment || ''} 
+              onChange={(e) => handleChange('comment', e.target.value)} 
+            />
+          </div>
         </div>
 
         <Separator />

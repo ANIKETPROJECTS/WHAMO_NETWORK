@@ -21,6 +21,7 @@ interface NodeData {
   type: NodeType;
   elevation?: number;
   nodeNumber?: number;
+  comment?: string;
   // Specific properties
   topElevation?: number;
   bottomElevation?: number;
@@ -40,6 +41,7 @@ interface EdgeData {
   numSegments?: number;
   cplus?: number;
   cminus?: number;
+  comment?: string;
 }
 
 export type WhamoNode = Node<NodeData>;

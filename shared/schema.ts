@@ -23,16 +23,19 @@ export type NodeType = z.infer<typeof nodeTypeSchema>;
 export const reservoirPropsSchema = z.object({
   id: z.string(),
   elevation: z.number(),
+  comment: z.string().optional(),
 });
 
 export const nodePropsSchema = z.object({
   nodeNumber: z.number().int(),
   elevation: z.number(),
+  comment: z.string().optional(),
 });
 
 export const junctionPropsSchema = z.object({
   nodeNumber: z.number().int(),
   elevation: z.number(),
+  comment: z.string().optional(),
 });
 
 export const surgeTankPropsSchema = z.object({
@@ -43,12 +46,14 @@ export const surgeTankPropsSchema = z.object({
   diameter: z.number(),
   celerity: z.number(),
   friction: z.number(),
+  comment: z.string().optional(),
 });
 
 export const flowBoundaryPropsSchema = z.object({
   id: z.string(),
   nodeNumber: z.number().int(),
   scheduleNumber: z.number().int(),
+  comment: z.string().optional(),
 });
 
 // Link/Conduit Types
@@ -66,6 +71,7 @@ export const conduitPropsSchema = z.object({
   numSegments: z.number().int().default(1),
   cplus: z.number().optional(),
   cminus: z.number().optional(),
+  comment: z.string().optional(),
 });
 
 export const dummyPipePropsSchema = z.object({
@@ -75,6 +81,7 @@ export const dummyPipePropsSchema = z.object({
   diameter: z.number(),
   cplus: z.number().optional(),
   cminus: z.number().optional(),
+  comment: z.string().optional(),
 });
 
 // Network State Structure (matches the spec's JSON structure)

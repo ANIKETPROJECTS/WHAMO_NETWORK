@@ -9,12 +9,12 @@ const HandleStyle = "w-2 h-2 bg-primary border border-white";
 export const ReservoirNode = memo(({ data, selected }: NodeProps) => {
   return (
     <div className={clsx(
-      "px-4 py-2 rounded-sm border shadow-sm min-w-[80px] text-center transition-all",
-      selected ? "border-primary ring-2 ring-primary/20 bg-blue-50" : "border-blue-400 bg-blue-50/50",
+      "w-[40px] h-[30px] rounded-sm border shadow-sm flex flex-col items-center justify-center transition-all",
+      selected ? "border-primary ring-2 ring-primary/20 bg-blue-600" : "border-blue-400 bg-blue-500",
     )}>
       <Handle type="source" position={Position.Bottom} className={HandleStyle} />
-      <div className="text-xs font-bold text-blue-800">{data.label}</div>
-      <div className="text-[10px] text-blue-600/80">Elev: {data.elevation}m</div>
+      <div className="text-[10px] font-bold text-white">HW</div>
+      <div className="absolute -top-6 text-[10px] font-medium text-blue-900">{data.label}</div>
     </div>
   );
 });
